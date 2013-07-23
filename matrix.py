@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Author: Joao S. O. Bueno
-# LGPL. v3.0
+# gwidion@gmail.com
+# GPL. v3.0
 
 MAX_CASCADES = 400
 
