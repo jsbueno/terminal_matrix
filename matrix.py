@@ -1,5 +1,4 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
+#! /usr/bin/env python3
 
 # Author: Joao S. O. Bueno
 # gwidion@gmail.com
@@ -11,9 +10,9 @@ import os, sys, time
 from random import randrange, choice
 
 sh = os.system
-pr = sys.stdout.write
+pr = lambda text: print(text, end="")
 esqs = "\x1b["
-getchars = lambda start, end: [unichr(i) for i in xrange(start, end)]
+getchars = lambda start, end: [chr(i) for i in range(start, end)]
 
 black, green, white = "30", "32", "37"
 
@@ -37,7 +36,7 @@ def end():
 def print_at(char, x, y, color="", bright="0"):
     pr("%s%d;%df" %(esqs, y, x))
     pr(esqs + bright + ";" + color + "m")
-    pr(char.encode("utf-8"))
+    pr(char)
 
 def update_line(speed, counter, line):
     counter += 1
@@ -87,7 +86,7 @@ def main():
 def add_new(cascading):
     if randrange(MAX_CASCADES) > len(cascading):
         col = randrange(cols)
-        for i in xrange(randrange(1, 20)):
+        for i in range(randrange(1, 20)):
             cascading.add(cascade((col + i - 1) % cols))
         return True
     return False
@@ -96,7 +95,7 @@ def iterate(cascading):
     stopped = set()
     for c in cascading:
         try:
-            c.next()
+            next(c)
         except StopIteration:
             stopped.add(c)
     return stopped
