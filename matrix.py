@@ -11,7 +11,7 @@ FRAME_DELAY = 0.03
 MAX_SPEED  = 5
 
 import shutil, sys, time
-from random import randrange, choice
+from random import choice, randrange, paretovariate
 
 CSI = "\x1b["
 pr = lambda command: print("\x1b[", command, sep="", end="")
@@ -25,6 +25,11 @@ hebrew = getchars(0x5d0, 0x5eb)
 cyrillic = getchars(0x400, 0x50)
 
 chars= latin + greek + hebrew + cyrillic
+
+def pareto(limit):
+    scale = lines // 2
+    number = (paretovariate(1.16) - 1) * scale
+    return max(0, limit - number)
 
 def init():
     global cols, lines
@@ -57,7 +62,7 @@ def cascade(col):
     oldline = eline = -1
     erasing = False
     bright = "1"
-    limit = lines - randrange(lines)
+    limit = pareto(lines)
     while True:
         counter, line = update_line(speed , counter, line)
         if randrange(10 * speed) < 1:
