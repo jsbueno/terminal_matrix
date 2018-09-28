@@ -4,9 +4,9 @@
 # gwidion@gmail.com
 # GPL. v3.0
 
-MAX_CASCADES = 400
+MAX_CASCADES = 600
 MAX_COLS = 20
-FRAME_DELAY = 0.06
+FRAME_DELAY = 0.03
 
 MAX_SPEED  = 5
 
