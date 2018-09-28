@@ -5,6 +5,10 @@
 # GPL. v3.0
 
 MAX_CASCADES = 400
+MAX_COLS = 20
+FRAME_DELAY = 0.06
+
+MAX_SPEED  = 5
 
 import shutil, sys, time
 from random import randrange, choice
@@ -46,8 +50,8 @@ def update_line(speed, counter, line):
     return counter, line
 
 def cascade(col):
-    speed = randrange(0, 4) + 1
-    espeed = randrange(0, 4) + 1
+    speed = randrange(1, MAX_SPEED)
+    espeed = randrange(1, MAX_SPEED)
     line = counter = ecounter = 0
     oldline = eline = -1
     erasing = False
@@ -81,12 +85,12 @@ def main():
         stopped = iterate(cascading)
         sys.stdout.flush()
         cascading.difference_update(stopped)
-        time.sleep(.06)
+        time.sleep(FRAME_DELAY)
 
 def add_new(cascading):
-    if randrange(MAX_CASCADES) > len(cascading):
+    if randrange(MAX_CASCADES + 1) > len(cascading):
         col = randrange(cols)
-        for i in range(randrange(1, 20)):
+        for i in range(randrange(1, MAX_COLS)):
             cascading.add(cascade((col + i - 1) % cols))
         return True
     return False
