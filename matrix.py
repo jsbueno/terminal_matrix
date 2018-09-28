@@ -6,12 +6,11 @@
 
 MAX_CASCADES = 400
 
-import os, sys, time
+import shutil, sys, time
 from random import randrange, choice
 
-sh = os.system
 pr = lambda text: print(text, end="")
-esqs = "\x1b["
+CSI = "\x1b["
 getchars = lambda start, end: [chr(i) for i in range(start, end)]
 
 black, green, white = "30", "32", "37"
@@ -24,18 +23,19 @@ chars= latin + greek # + hebrew
 
 def init():
     global cols, lines
-    sh("setterm -cursor off")
-    cols = int(os.popen("tput cols").read())
-    lines = int(os.popen("tput lines").read())
+    cols, lines = shutil.get_terminal_size()
+    pr(CSI + "?25l")  # Hides cursor
+    pr(CSI + "s")  # Saves cursor position
 
 def end():
-    pr(esqs + "m")
-    sh("clear")
-    sh("setterm -cursor on")
+    pr(CSI + "m")   # reset attributes
+    pr(CSI + "2J")  # clear screen
+    pr(CSI + "u")  # Restores cursor position
+    pr(CSI + "?25h")  # Show cursor
 
 def print_at(char, x, y, color="", bright="0"):
-    pr("%s%d;%df" %(esqs, y, x))
-    pr(esqs + bright + ";" + color + "m")
+    pr("%s%d;%df" % (CSI, y, x))
+    pr(CSI + bright + ";" + color + "m")
     pr(char)
 
 def update_line(speed, counter, line):
