@@ -9,8 +9,8 @@ MAX_CASCADES = 400
 import shutil, sys, time
 from random import randrange, choice
 
-pr = lambda text: print(text, end="")
 CSI = "\x1b["
+pr = lambda command: print("\x1b[", command, sep="", end="")
 getchars = lambda start, end: [chr(i) for i in range(start, end)]
 
 black, green, white = "30", "32", "37"
@@ -24,19 +24,19 @@ chars= latin + greek # + hebrew
 def init():
     global cols, lines
     cols, lines = shutil.get_terminal_size()
-    pr(CSI + "?25l")  # Hides cursor
-    pr(CSI + "s")  # Saves cursor position
+    pr("?25l")  # Hides cursor
+    pr("s")  # Saves cursor position
 
 def end():
-    pr(CSI + "m")   # reset attributes
-    pr(CSI + "2J")  # clear screen
-    pr(CSI + "u")  # Restores cursor position
-    pr(CSI + "?25h")  # Show cursor
+    pr("m")   # reset attributes
+    pr("2J")  # clear screen
+    pr("u")  # Restores cursor position
+    pr("?25h")  # Show cursor
 
 def print_at(char, x, y, color="", bright="0"):
-    pr("%s%d;%df" % (CSI, y, x))
-    pr(CSI + bright + ";" + color + "m")
-    pr(char)
+    pr("%d;%df" % (y, x))
+    pr(bright + ";" + color + "m")
+    print(char, end="", flush=True)
 
 def update_line(speed, counter, line):
     counter += 1
