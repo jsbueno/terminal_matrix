@@ -19,11 +19,12 @@ getchars = lambda start, end: [chr(i) for i in range(start, end)]
 
 black, green, white = "30", "32", "37"
 
-latin = getchars(0x30, 0x7e)
-greek = getchars(0x390, 0x3cf)
-hebrew = getchars(0x590, 0x5FF)
+latin = getchars(0x30, 0x80)
+greek = getchars(0x390, 0x3d0)
+hebrew = getchars(0x5d0, 0x5eb)
+cyrillic = getchars(0x400, 0x50)
 
-chars= latin + greek # + hebrew
+chars= latin + greek + hebrew + cyrillic
 
 def init():
     global cols, lines
@@ -90,8 +91,8 @@ def main():
 def add_new(cascading):
     if randrange(MAX_CASCADES + 1) > len(cascading):
         col = randrange(cols)
-        for i in range(randrange(1, MAX_COLS)):
-            cascading.add(cascade((col + i - 1) % cols))
+        for i in range(randrange(MAX_COLS)):
+            cascading.add(cascade((col + i) % cols))
         return True
     return False
 
